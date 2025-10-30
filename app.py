@@ -623,5 +623,7 @@ if __name__ == "__main__":
     print(f"🌍 Environment: {os.getenv('FLASK_ENV', 'development')}")
     print(f"🤖 TensorFlow version: {tf.__version__ if 'tf' in globals() else 'Not imported'}")
     print(f"💾 Model loaded: {'✅' if model else '❌'}")
+    print(f"🌐 PORT environment variable: {os.getenv('PORT', 'Not set')}")
     
+    # Ensure we bind to all interfaces for Render
     app.run(debug=debug_mode, host="0.0.0.0", port=port)
