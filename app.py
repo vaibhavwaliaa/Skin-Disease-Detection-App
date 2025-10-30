@@ -1,6 +1,7 @@
 import os
 import numpy as np
 import time
+import tensorflow as tf
 from werkzeug.utils import secure_filename
 from flask import Flask, request, jsonify, render_template, redirect, url_for, send_from_directory
 from flask_cors import CORS  # Add CORS support
@@ -423,7 +424,13 @@ Stay healthy!"""
 # Debug route to test if Flask is working
 @app.route("/debug", methods=["GET"])
 def debug():
-    return jsonify({"status": "Flask server is working!", "routes": ["/", "/send_sms", "/test_sms", "/debug"]})
+    return jsonify({
+        "status": "Flask server is working!", 
+        "routes": ["/", "/send_sms", "/test_sms", "/debug"],
+        "model_loaded": model is not None,
+        "mongodb_connected": mongo is not None,
+        "twilio_initialized": client is not None
+    })
 
 # Test SMS route
 @app.route("/test_sms", methods=["GET", "POST"])
@@ -594,5 +601,7 @@ if __name__ == "__main__":
     print(f"🚀 Starting Flask app on port {port}")
     print(f"🔧 Debug mode: {debug_mode}")
     print(f"🌍 Environment: {os.getenv('FLASK_ENV', 'development')}")
+    print(f"🤖 TensorFlow version: {tf.__version__ if 'tf' in globals() else 'Not imported'}")
+    print(f"💾 Model loaded: {'✅' if model else '❌'}")
     
     app.run(debug=debug_mode, host="0.0.0.0", port=port)

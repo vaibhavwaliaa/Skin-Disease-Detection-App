@@ -3,7 +3,7 @@ services:
     name: skin-disease-detection
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn --bind 0.0.0.0:$PORT app:app
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --timeout 120 --workers 1 --max-requests 1000 app:app
     plan: free
     envVars:
       - key: PYTHON_VERSION
@@ -13,16 +13,16 @@ services:
       - key: FLASK_ENV
         value: production
       - key: TWILIO_SID
-        sync: false
+        value: YOUR_TWILIO_SID_HERE
       - key: TWILIO_AUTH_TOKEN
-        sync: false
+        value: YOUR_TWILIO_AUTH_TOKEN_HERE
       - key: TWILIO_PHONE_NUMBER
-        sync: false
+        value: YOUR_TWILIO_PHONE_NUMBER_HERE
       - key: YOUR_PHONE_NUMBER
-        sync: false
+        value: YOUR_VERIFIED_PHONE_NUMBER_HERE
       - key: MONGO_URI
-        sync: false
-    healthCheckPath: /
+        value: mongodb://localhost:27017/contactDB
+    healthCheckPath: /debug
     disk:
       name: data
       mountPath: /opt/render/project/src/static/uploads
