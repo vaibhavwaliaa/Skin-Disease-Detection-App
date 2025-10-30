@@ -433,11 +433,18 @@ Stay healthy!"""
 def debug():
     return jsonify({
         "status": "Flask server is working!", 
-        "routes": ["/", "/send_sms", "/test_sms", "/debug"],
+        "routes": ["/", "/send_sms", "/test_sms", "/debug", "/health"],
         "model_loaded": model is not None,
         "mongodb_connected": mongo is not None,
-        "twilio_initialized": client is not None
+        "twilio_initialized": client is not None,
+        "port": os.getenv("PORT", "Not set"),
+        "flask_env": os.getenv("FLASK_ENV", "Not set")
     })
+
+# Simple health check for Render
+@app.route("/health", methods=["GET"])
+def health():
+    return "OK", 200
 
 # Test SMS route
 @app.route("/test_sms", methods=["GET", "POST"])

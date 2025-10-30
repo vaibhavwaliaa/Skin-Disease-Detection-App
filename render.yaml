@@ -22,7 +22,7 @@ services:
         value: YOUR_VERIFIED_PHONE_NUMBER_HERE
       - key: MONGO_URI
         value: mongodb://localhost:27017/contactDB
-    healthCheckPath: /debug
+    healthCheckPath: /health
     disk:
       name: data
       mountPath: /opt/render/project/src/static/uploads
