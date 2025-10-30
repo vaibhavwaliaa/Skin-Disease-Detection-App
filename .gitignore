@@ -81,3 +81,6 @@ static/uploads/*
 
 # Git
 .git/
+
+# Nested directory (prevent submodule issues)
+Skin_Disease_Detection/
