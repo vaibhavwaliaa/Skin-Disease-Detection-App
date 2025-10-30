@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: skin-disease-detection
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT app:app
+    plan: free
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.18
+      - key: PORT
+        generateValue: true
+      - key: FLASK_ENV
+        value: production
+      - key: TWILIO_SID
+        sync: false
+      - key: TWILIO_AUTH_TOKEN
+        sync: false
+      - key: TWILIO_PHONE_NUMBER
+        sync: false
+      - key: YOUR_PHONE_NUMBER
+        sync: false
+      - key: MONGO_URI
+        sync: false
+    healthCheckPath: /
+    disk:
+      name: data
+      mountPath: /opt/render/project/src/static/uploads
+      sizeGB: 1
